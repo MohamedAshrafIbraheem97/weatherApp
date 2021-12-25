@@ -1,0 +1,311 @@
+:root {
+  --main-color: rgba(14, 0, 176, 0.25);
+  --secondary-color: rgb(15, 0, 179, 25%); /* should add 25 opacity*/
+  --gray-color: #4f4f4f;
+  --hover-color: #0e00b080;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  display: grid;
+  justify-content: center;
+
+  color: var(--gray-color);
+}
+.container {
+  width: 375px;
+  position: relative;
+}
+
+@media screen and (min-width: 500px) {
+  .container {
+    width: 500px;
+  }
+}
+@media screen and (min-width: 992px) {
+  .container {
+    width: 992px;
+  }
+}
+
+.image img {
+  width: 340px;
+}
+.first-view {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-image: linear-gradient(
+    to left bottom,
+    white,
+    var(--main-color),
+    white,
+    white
+  );
+  padding: 0 32px;
+}
+@media screen and (min-width: 992px) {
+  .first-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-around;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .first-view .text {
+    padding-top: 100px;
+  }
+}
+.first-view .text .heading {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
+  padding-bottom: 16px;
+}
+.first-view .text .current-temp {
+  width: 75px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 300;
+  padding-bottom: 8px;
+}
+.first-view .text .all-temps,
+.row:nth-child(3) .all-temps {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  width: 116px;
+  gap: 15px;
+}
+@media screen and (min-width: 992px) {
+  .first-view .text .all-temps,
+  .row:nth-child(3) .all-temps {
+    grid-template-columns: auto auto auto auto;
+    gap: 30px;
+    padding-top: 15px;
+  }
+}
+.first-view .text .all-temps .temp-and-icon,
+.row:nth-child(3) .all-temps .temp-and-icon {
+  display: flex;
+  justify-content: space-around;
+  width: 50px;
+}
+
+.first-view .text .all-temps .temp-time,
+.row:nth-child(3) .all-temps .temp-time {
+  font-weight: 300;
+  font-size: 12px;
+}
+.first-view .text .all-temps .temp-and-icon,
+.row:nth-child(3) .all-temps .temp-and-icon {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  padding-top: 8px;
+}
+.first-view .text .all-temps .temp-and-icon img,
+.row:nth-child(3) .all-temps .temp-and-icon img,
+.temp-days .temp .temp-icon img {
+  width: 18px;
+}
+.end-of-first-view {
+  display: flex;
+  justify-content: center;
+  animation-name: bouncingText;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+  animation-direction: alternate-reverse;
+  animation-timing-function: ease-out;
+}
+
+@keyframes bouncingText {
+  from {
+    transform: translateY(30px);
+  }
+  to {
+    transform: translateY(0px);
+  }
+}
+@media screen and (min-width: 992px) {
+  .end-of-first-view {
+    display: none;
+  }
+}
+.second-view {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 32px;
+}
+.second-view .image img {
+  width: 170px;
+  /* box-shadow: 10px 10px 250px #fff500; */
+}
+.current-temp-details {
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+.row .temp-location span {
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 45px;
+}
+.row .change-location-button {
+  width: 140px;
+  height: 36px;
+  background-color: var(--main-color);
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+}
+.row .change-location-button:hover {
+  background-color: var(--hover-color);
+}
+.row:nth-child(2) {
+  width: 50%;
+}
+.row:nth-child(2) p:nth-child(1) {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19px;
+}
+.row:nth-child(2) p:nth-child(2) {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 24px;
+}
+.row:nth-child(2) p:last-child {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 24px;
+}
+/* I overrided the default behavior which is showing them in 2 columns and it is now 4 by the flex behavior*/
+.row:nth-child(3) .all-temps {
+  display: flex;
+}
+.row:nth-child(1) {
+  padding: 40px 0;
+}
+.row:nth-child(3) {
+  padding-top: 24px;
+  padding-bottom: 70px;
+}
+.temp-days {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+}
+.temp-days .day-temp {
+  display: flex;
+  justify-content: space-between;
+}
+.temp-days .temp {
+  display: flex;
+  width: 30%;
+  padding-bottom: 16px;
+  justify-content: space-around;
+}
+.modal {
+  background-color: rgba(196, 196, 196, 50%);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  display: none;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+.modal-content {
+  background-color: #f1f3f6;
+  width: 85%;
+  height: 80%;
+  border-radius: 24px;
+  margin: 20% auto;
+  overflow-y: auto;
+}
+.modal-inner-content {
+  padding: 10px 10px;
+
+  display: flex;
+  flex-direction: column;
+}
+.modal-inner-content .added-location {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.25);
+  margin-bottom: 8px;
+  border-radius: 8px;
+  padding: 24px 16px;
+  align-items: center;
+  height: 100px;
+}
+.modal-inner-content .selected-location {
+  background-color: var(--main-color);
+}
+.modal-inner-content .added-location .temp-country p,
+.modal-inner-content .added-location .temp p {
+  font-size: 18px;
+  line-height: 24px;
+}
+.modal-inner-content .added-location .temp-country p:nth-child(1) {
+  font-weight: 400;
+}
+.modal-inner-content .added-location .temp-country p:nth-child(2),
+.modal-inner-content .added-location .temp p {
+  font-weight: 300;
+}
+
+.modal-inner-content .added-location .temp span img {
+  width: 35px;
+}
+.modal-inner-content .added-location .temp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.modal-inner-content .new-location {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-self: flex-end; */
+  /* align-self: flex-end; */
+  /* width: 94%;
+  position: absolute;*/
+  bottom: 10px;
+}
+.modal-inner-content .new-location input {
+  background: rgba(196, 196, 196);
+  border-radius: 10px;
+  width: 100%;
+  height: 80px;
+  border: none;
+  bottom: 0;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--gray-color);
+
+  /* display: flex;
+  justify-content: center; */
+  /* position: fixed; */
+  /* bottom: 100px; */
+
+  /* align-self: stretch; */
+}
