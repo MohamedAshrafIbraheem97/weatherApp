@@ -18,8 +18,8 @@ body {
   color: var(--gray-color);
 }
 .container {
-  width: 375px;
-  position: relative;
+  width: 414px;
+  overflow: auto;
 }
 
 @media screen and (min-width: 500px) {
