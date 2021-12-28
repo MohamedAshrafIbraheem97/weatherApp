@@ -35,6 +35,8 @@ const todayAllTemps = document.querySelector('.first-view .text .all-temps');
 
 const todayAllTemps2 = document.querySelector('.second-view .row  .all-temps');
 
+const tempDays = document.querySelector('.second-view .temp-days');
+
 // code logic
 // Get user location
 const getLocation = function () {
@@ -72,7 +74,7 @@ getLocation()
 async function callWeatherAPI(key, latitude, longitude) {
   // const { lat, lng } = await retreivePosition();
   const response = await fetch(
-    `http://api.weatherapi.com/v1/forecast.json?key=${key}&q=${latitude},${longitude}&days=10&aqi=no&alerts=no
+    `https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${latitude},${longitude}&days=10&aqi=no&alerts=no
     `
   );
 
@@ -83,7 +85,7 @@ async function callWeatherAPI(key, latitude, longitude) {
   console.log();
 
   regionNameFirstView.textContent = regionNameSecondFold.textContent =
-    jsonData.location.region;
+    jsonData.location.name;
 
   currentTempNoFirstView.textContent = currentTempNoSecondFold.textContent =
     jsonData.current.condition.text;
@@ -94,72 +96,56 @@ async function callWeatherAPI(key, latitude, longitude) {
   mainIcon.src = `images/${checkLargeIcons(
     jsonData.forecast.forecastday[0].hour[6].condition.code
   )}.png`;
+  let innerHtml = '';
+  for (let index = 0; index < 24; index += 6) {
+    innerHtml += `<div class="first-temp">
+      <p class="temp-time">${jsonData.forecast.forecastday[0].hour[
+        index
+      ].time.substr(-5)}</p>
+      <div class="temp-and-icon">
+        <p class="temp-degree">${
+          jsonData.forecast.forecastday[0].hour[index].temp_c
+        }&deg; </p>
+        <span class="temp-icon"
+          > <img src="images/icons/${checkSmallIcons(
+            jsonData.forecast.forecastday[0].hour[index].condition.code
+          )}.png" alt=""
+        /></span>
+      </div>
+    </div>`;
+  }
+  // adding inner html to the page
+  todayAllTemps.innerHTML = todayAllTemps2.innerHTML = innerHtml;
+  console.log(jsonData.forecast.forecastday[0].date);
+  console.log(jsonData.forecast.forecastday[0].day.maxtemp_c);
+  console.log(jsonData.forecast.forecastday[0].day.mintemp_c);
+  console.log(jsonData.forecast.forecastday[0].day.condition.code);
+  // console.log(jsonData.forecast.forecastday[0].date);
 
-  todayAllTemps.innerHTML = todayAllTemps2.innerHTML = `
-  <div class="first-temp">
-    <p class="temp-time">${jsonData.forecast.forecastday[0].hour[6].time.substr(
-      -5
-    )}</p>
-    <div class="temp-and-icon">
-      <p class="temp-degree">${
-        jsonData.forecast.forecastday[0].hour[6].temp_c
-      }&deg; </p>
-      <span class="temp-icon"
-        > <img src="images/icons/${checkSmallIcons(
-          jsonData.forecast.forecastday[0].hour[6].condition.code
-        )}.png" alt=""
-      /></span>
-    </div>
-  </div>
-  <div class="second-temp">
-  
-  <p class="temp-time">${jsonData.forecast.forecastday[0].hour[12].time.substr(
-    -5
-  )}</p>
-  <div class="temp-and-icon">
-    <p class="temp-degree">${
-      jsonData.forecast.forecastday[0].hour[12].temp_c
-    }&deg; </p>
-    <span class="temp-icon"
-      > <img src="images/icons/${checkSmallIcons(
-        jsonData.forecast.forecastday[0].hour[12].condition.code
-      )}.png" alt=""
-    /></span>
-  </div>
-  </div>
-  <div class="third-temp">
-  <p class="temp-time">${jsonData.forecast.forecastday[0].hour[18].time.substr(
-    -5
-  )}</p>
-  <div class="temp-and-icon">
-    <p class="temp-degree">${
-      jsonData.forecast.forecastday[0].hour[18].temp_c
-    }&deg; </p>
-    <span class="temp-icon"
-      > <img src="images/icons/${checkSmallIcons(
-        jsonData.forecast.forecastday[0].hour[18].condition.code
-      )}.png" alt=""
-    /></span>
-  </div>
+  let daysInnerHtml = '';
+  for (let index = 0; index < 3; index++) {
+    daysInnerHtml += `
+    <div class="day-temp">
+      <div class="day">${getWeekDay(
+        new Date(jsonData.forecast.forecastday[index].date)
+      )}${index === 0 ? ' - Today' : ''}</div>
+      <div class="temp">
+        <div class="great-temp">${
+          jsonData.forecast.forecastday[index].day.maxtemp_c
+        }&deg;</div>
+        <div class="low-temp">${
+          jsonData.forecast.forecastday[index].day.mintemp_c
+        }&deg;</div>
+        <div class="temp-icon">
+          <img src="images/icons/${checkSmallIcons(
+            jsonData.forecast.forecastday[index].day.condition.code
+          )}.png" alt="" />
+        </div> 
+      </div>
+    </div>`;
+  }
 
-  </div>
-  <div class="fourth-temp">
-  <p class="temp-time">${jsonData.forecast.forecastday[0].hour[23].time.substr(
-    -5
-  )}</p>
-  <div class="temp-and-icon">
-    <p class="temp-degree">${
-      jsonData.forecast.forecastday[0].hour[23].temp_c
-    }&deg; </p>
-    <span class="temp-icon"
-      > <img src="images/icons/${checkSmallIcons(
-        jsonData.forecast.forecastday[0].hour[23].condition.code
-      )}.png" alt=""
-    /></span>
-  </div>
-  </div>
-
-`;
+  tempDays.innerHTML = daysInnerHtml;
 }
 
 // return the appropiriate small icon
@@ -213,6 +199,11 @@ function checkLargeIcons(code) {
     default:
       return 'mainSun';
   }
+}
+// return week day of the specified date
+function getWeekDay(date) {
+  let weekday = new Array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+  return weekday[date.getDay()];
 }
 
 // Event listeners

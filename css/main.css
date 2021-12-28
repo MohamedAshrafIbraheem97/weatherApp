@@ -219,7 +219,7 @@ body {
 }
 .temp-days .temp {
   display: flex;
-  width: 30%;
+  width: 40%;
   padding-bottom: 16px;
   justify-content: space-around;
 }
