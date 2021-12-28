@@ -36,7 +36,7 @@
           </div>
 
           <div class="all-temps">
-            <div class="first-temp">
+            <!-- <div class="first-temp">
               <p class="temp-time">06:00</p>
               <div class="temp-and-icon">
                 <p class="temp-degree">33 &deg;</p>
@@ -45,33 +45,7 @@
                 /></span>
               </div>
             </div>
-            <div class="second-temp">
-              <p class="temp-time">06:00</p>
-              <div class="temp-and-icon">
-                <p class="temp-degree">33</p>
-                <span class="temp-icon"
-                  ><img src="images/icons/day-snow.png" alt=""
-                /></span>
-              </div>
-            </div>
-            <div class="third-temp">
-              <p class="temp-time">06:00</p>
-              <div class="temp-and-icon">
-                <p class="temp-degree">33</p>
-                <span class="temp-icon"
-                  ><img src="images/icons/day-snow.png" alt=""
-                /></span>
-              </div>
-            </div>
-            <div class="fourth-temp">
-              <p class="temp-time">06:00</p>
-              <div class="temp-and-icon">
-                <p class="temp-degree">33</p>
-                <span class="temp-icon"
-                  ><img src="images/icons/day-snow.png" alt=""
-                /></span>
-              </div>
-            </div>
+             -->
           </div>
         </div>
         <div class="end-of-first-view">
@@ -98,7 +72,7 @@
           </div>
           <div class="row">
             <div class="all-temps">
-              <div class="first-temp">
+              <!-- <div class="first-temp">
                 <p class="temp-time">06:00</p>
                 <div class="temp-and-icon">
                   <p class="temp-degree">33</p>
@@ -106,34 +80,8 @@
                     ><img src="images/icons/day-snow.png" alt=""
                   /></span>
                 </div>
-              </div>
-              <div class="second-temp">
-                <p class="temp-time">06:00</p>
-                <div class="temp-and-icon">
-                  <p class="temp-degree">33</p>
-                  <span class="temp-icon"
-                    ><img src="images/icons/day-snow.png" alt=""
-                  /></span>
-                </div>
-              </div>
-              <div class="third-temp">
-                <p class="temp-time">06:00</p>
-                <div class="temp-and-icon">
-                  <p class="temp-degree">33</p>
-                  <span class="temp-icon"
-                    ><img src="images/icons/day-snow.png" alt=""
-                  /></span>
-                </div>
-              </div>
-              <div class="fourth-temp">
-                <p class="temp-time">06:00</p>
-                <div class="temp-and-icon">
-                  <p class="temp-degree">33</p>
-                  <span class="temp-icon"
-                    ><img src="images/icons/day-snow.png" alt=""
-                  /></span>
-                </div>
-              </div>
+              </div> -->
+              
             </div>
           </div>
           <div class="temp-days">
@@ -205,21 +153,37 @@
             </div>
 
             <div class="new-location">
+              <input
+                type="text"
+                name="new-location-text"
+                id=""
+                placeholder="Enter a place ..."
+              />
               <input type="button" value="Add location &plus;" />
             </div>
           </div>
         </div>
       </div>
-      <!-- Powered by
-
-      <a href="https://www.weatherapi.com/" title="Free Weather API"
-        ><img
-          src="//cdn.weatherapi.com/v4/images/weatherapi_logo.png"
-          alt="Weather data by WeatherAPI.com"
-          border="0"
-      /></a> -->
+      <div class="loader">
+        <div class="dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+      <div class="powered-by">
+        <p>Powered by </p>
+        <a href="https://www.weatherapi.com/" title="Free Weather API"></a>
+          <img
+            src="//cdn.weatherapi.com/v4/images/weatherapi_logo.png"
+            alt="Weather data by WeatherAPI.com"
+            border="0"
+        /></a>
+      </div>
     </div>
     <!-- end container -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <script src="js/index.js"></script>
   </body>
 </html>

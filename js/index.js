@@ -29,7 +29,6 @@ const currentTempNoSecondFold = document.querySelector(
 const currentTempTextSecondFold = document.querySelector(
   '.second-view .current-temp-details .row'
 ).nextElementSibling.childNodes[5];
-console.log(currentTempTextSecondFold);
 
 const todayAllTemps = document.querySelector('.first-view .text .all-temps');
 
@@ -37,27 +36,29 @@ const todayAllTemps2 = document.querySelector('.second-view .row  .all-temps');
 
 const tempDays = document.querySelector('.second-view .temp-days');
 
+const addLocationText =
+  document.querySelector('.new-location').firstElementChild;
+
+const addLocationButton =
+  document.querySelector('.new-location').lastElementChildElementChild;
+
+const loader = document.querySelector('.loader');
 // code logic
 // Get user location
+swal('Please make sure you opened your location in your device, Thank you!');
+
 const getLocation = function () {
+  // This is an alert from sweetAlertLibrary it looks good so that i  used it
+
   if (navigator.geolocation) {
     return new Promise(function (resolve, reject) {
       navigator.geolocation.getCurrentPosition(resolve, reject);
     });
   } else {
-    alert("Browser doesn't support geolocation!");
+    swal("Browser doesn't support geolocation!");
+    // alert("Browser doesn't support geolocation!");
   }
 };
-
-let promise = new Promise(function (resolve, reject) {
-  setTimeout(() => resolve('done!'), 1000);
-});
-
-// resolve runs the first function in .then
-// promise.then(
-//   (result) => alert(result), // shows "done!" after 1 second
-//   (error) => alert(error) // doesn't run
-// );
 
 getLocation()
   .then((result) => {
@@ -68,21 +69,22 @@ getLocation()
     callWeatherAPI(key, lat, lng);
   })
   .catch(function (error) {
-    console.log(error);
+    console.log(new Error(error));
   });
 
 async function callWeatherAPI(key, latitude, longitude) {
-  // const { lat, lng } = await retreivePosition();
-  const response = await fetch(
+  let response;
+
+  response = await fetch(
     `https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${latitude},${longitude}&days=10&aqi=no&alerts=no
     `
   );
+  // to control hiding/showing the loader
+  if (response !== undefined) {
+    loader.style.display = 'none';
+  }
 
   const jsonData = await response.json();
-
-  console.log(jsonData);
-  console.log(jsonData.forecast.forecastday[0].hour[2].time.substr(-5));
-  console.log();
 
   regionNameFirstView.textContent = regionNameSecondFold.textContent =
     jsonData.location.name;
@@ -96,6 +98,12 @@ async function callWeatherAPI(key, latitude, longitude) {
   mainIcon.src = `images/${checkLargeIcons(
     jsonData.forecast.forecastday[0].hour[6].condition.code
   )}.png`;
+
+  insertHtmlForTodayTemp(jsonData);
+
+  insertHtmlForDynamicDays(jsonData);
+}
+function insertHtmlForTodayTemp(jsonData) {
   let innerHtml = '';
   for (let index = 0; index < 24; index += 6) {
     innerHtml += `<div class="first-temp">
@@ -114,14 +122,11 @@ async function callWeatherAPI(key, latitude, longitude) {
       </div>
     </div>`;
   }
+
   // adding inner html to the page
   todayAllTemps.innerHTML = todayAllTemps2.innerHTML = innerHtml;
-  console.log(jsonData.forecast.forecastday[0].date);
-  console.log(jsonData.forecast.forecastday[0].day.maxtemp_c);
-  console.log(jsonData.forecast.forecastday[0].day.mintemp_c);
-  console.log(jsonData.forecast.forecastday[0].day.condition.code);
-  // console.log(jsonData.forecast.forecastday[0].date);
-
+}
+function insertHtmlForDynamicDays(jsonData) {
   let daysInnerHtml = '';
   for (let index = 0; index < 3; index++) {
     daysInnerHtml += `
@@ -147,7 +152,6 @@ async function callWeatherAPI(key, latitude, longitude) {
 
   tempDays.innerHTML = daysInnerHtml;
 }
-
 // return the appropiriate small icon
 function checkSmallIcons(code) {
   switch (code) {
@@ -212,6 +216,7 @@ changeLocationButton.addEventListener('click', function (e) {
   e.preventDefault();
   modal.style.display = 'block';
 });
+changeLocationButton.disabled = true;
 // to close modal when we click any where outside the modal
 document.addEventListener('click', function (e) {
   if (e.target.className === 'modal') modal.style.display = 'none';
